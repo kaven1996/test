@@ -50,3 +50,55 @@ class DownloadController extends Controller
         return $this->response->download($filename, $csvContent);
     }
 }
+
+
+
+
+
+<?php
+
+namespace App\Controllers;
+
+use CodeIgniter\Controller;
+use CodeIgniter\HTTP\RequestInterface;
+use Config\Database;
+
+class CsvController extends Controller
+{
+    public function index()
+    {
+        return view('csv_form');
+    }
+
+    public function download()
+    {
+        $request = service('request');
+        $table = $request->getPost('table');
+
+        $db = Database::connect();
+        $builder = $db->table($table);
+        $query = $builder->get();
+
+        if (!$query) {
+            return redirect()->back()->with('error', 'Table not found');
+        }
+
+        $filename = $table . '_data.csv';
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        $output = fopen('php://output', 'w');
+
+        // 获取列名
+        $fieldNames = $query->getFieldNames();
+        fputcsv($output, $fieldNames);
+
+        // 获取行数据
+        foreach ($query->getResultArray() as $row) {
+            fputcsv($output, $row);
+        }
+
+        fclose($output);
+        exit();
+    }
+}
