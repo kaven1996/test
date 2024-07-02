@@ -12,33 +12,25 @@ def fetch_data(url):
 def parse_data(html):
     soup = BeautifulSoup(html, 'html.parser')
     
-    # 这个部分根据实际的网页结构进行解析，这里假设是一个表格
-    data = []
-    table = soup.find('table')
+    tables = soup.find_all('table')
     
-    # 检查表格是否存在
-    if not table:
-        raise Exception('No table found on the page')
+    if not tables:
+        raise Exception('No tables found on the page')
     
-    # 提取表头
-    headers = [header.text for header in table.find_all('th')]
+    for table in tables:
+        headers = [header.text for header in table.find_all('th')]
+        rows = table.find_all('tr')
+        
+        data = []
+        for row in rows:
+            columns = row.find_all('td')
+            if columns:
+                data.append([column.text for column in columns])
+        
+        if headers and data:
+            return headers, data
     
-    # 检查表头是否存在
-    if not headers:
-        raise Exception('No table headers found')
-    
-    # 提取表格行
-    rows = table.find_all('tr')
-    for row in rows:
-        columns = row.find_all('td')
-        if columns:
-            data.append([column.text for column in columns])
-    
-    # 检查数据行是否存在
-    if not data:
-        raise Exception('No table rows found')
-    
-    return headers, data
+    raise Exception('All tables are empty')
 
 def save_to_csv(headers, data, filename):
     df = pd.DataFrame(data, columns=headers)
