@@ -1,0 +1,28 @@
+{
+    "get_after_num": 5,
+    "output_sheet_name":"Loading by model",
+    "fac_model":["QMF","QMN","QCG"],
+    "export_loading_index":{
+        "QMF":{"rack":3,"server":4,"mb":5,"sb":6,"fa":8},//Fill in the number of output data rows.
+        "QMN":{"rack":21,"server":22,"mb":23,"sb":24},
+        "QCG":{"rack":37,"server":38,"mb":39,"sb":40}
+    },
+    "FAB":{
+        "rack_key_word": "Oct",
+        "server_key_word": "Oct Server QTY",
+        "MB_key_word": "Oct MB QTY",
+        "SB_Key_word": "Oct SB QTY"
+    },
+    "AMA":{
+        "rack_key_word": "Oct",
+        "server_key_word": "Oct Server QTY",
+        "MB_key_word": "Oct MB QTY",
+        "SB_Key_word": "Oct SB QTY"
+    },
+    "MSF":{
+        "rack_key_word": "Oct",
+        "server_key_word": "Oct Server QTY",
+        "MB_key_word": "Oct MB QTY",
+        "SB_Key_word": "Oct SB QTY"
+    }
+}
